@@ -128,3 +128,60 @@ chart
       .tickSize(-width, 0, 0)
       .tickFormat("")
   );
+
+// Labels in D3.js
+svg
+  .append("text")
+  .attr("x", -(height / 2) - margin)
+  .attr("y", margin / 2.4)
+  .attr("transform", "rotate(-90)")
+  .attr("text-anchor", "middle")
+  .text("Love meter (%)");
+
+svg
+  .append("text")
+  .attr("x", width / 2 + margin)
+  .attr("y", 40)
+  .attr("text-anchor", "middle")
+  .text("Most loved programming languages in 2018");
+
+// Interactivity (why chart and not barGroup)
+chart.selectAll("rect").on("mouseenter", function(d, i) {
+  d3.select(this).attr("opacity", 0.5);
+});
+
+chart.selectAll("rect").on("mouseleave", function() {
+  d3.select(this).attr("opacity", 1);
+});
+
+// Fancier interactivity
+chart.selectAll("rect").on("mouseenter", function(d, i) {
+  d3.select(this)
+    .transition()
+    .duration(300)
+    .attr("opacity", 0.6)
+    .attr("x", d => xScale(d.language) - 5)
+    .attr("width", xScale.bandwidth() + 10);
+
+  // draw a line
+  const y = yScale(d.value);
+  chart
+    .append("line")
+    .attr("id", "limit")
+    .attr("x1", 0)
+    .attr("y1", y)
+    .attr("x2", width)
+    .attr("y2", y)
+    .attr("stroke", "red");
+});
+
+chart.selectAll("rect").on("mouseleave", function(d, i) {
+  d3.select(this)
+    .transition()
+    .duration(300)
+    .attr("opacity", 1)
+    .attr("x", d => xScale(d.language))
+    .attr("width", xScale.bandwidth());
+
+  chart.select("#limit").remove();
+});
