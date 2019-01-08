@@ -104,3 +104,27 @@ barGroups
   .attr("y", d => yScale(d.value))
   .attr("width", xScale.bandwidth())
   .attr("height", d => height - yScale(d.value));
+
+// Adding vertical grid
+chart
+  .append("g")
+  .attr("class", "grid")
+  .attr("transform", `translate(0, ${height})`)
+  .call(
+    d3
+      .axisBottom()
+      .scale(xScale)
+      .tickSize(-height, 0, 0)
+      .tickFormat("")
+  );
+// Adding horizontal grid
+chart
+  .append("g")
+  .attr("class", "grid")
+  .call(
+    d3
+      .axisLeft()
+      .scale(yScale)
+      .tickSize(-width, 0, 0)
+      .tickFormat("")
+  );
