@@ -173,6 +173,19 @@ chart.selectAll("rect").on("mouseenter", function(d, i) {
     .attr("x2", width)
     .attr("y2", y)
     .attr("stroke", "red");
+
+  // text on bar groups
+  barGroups
+    .append("text")
+    .attr("class", "divergence")
+    .attr("x", d => xScale(d.language) + xScale.bandwidth() / 2)
+    .attr("y", d => yScale(d.value) + 20)
+    .attr("fill", "white")
+    .attr("text-anchor", "middle")
+    .text(a => {
+      const diff = a.value - d.value;
+      return diff.toFixed(1);
+    });
 });
 
 chart.selectAll("rect").on("mouseleave", function(d, i) {
@@ -184,4 +197,5 @@ chart.selectAll("rect").on("mouseleave", function(d, i) {
     .attr("width", xScale.bandwidth());
 
   chart.select("#limit").remove();
+  chart.selectAll(".divergence").remove();
 });
