@@ -52,18 +52,17 @@ const sample = [
   }
 ];
 
-const chartWidth = 800;
+const chartWidth = 1000;
 const chartHeight = 600;
 const margin = 60;
 const height = chartHeight - 2 * margin;
 const width = chartWidth - 2 * margin;
 
 // Select the svg element in index.htm
-const svg = d3
-  .select("svg")
-  .attr("height", chartHeight)
-  .attr("width", chartWidth)
-  .style("background", "#f4f4f4");
+const svg = d3.select("svg");
+// .attr("height", chartHeight)
+// .attr("width", chartWidth);
+// .style("background", "#f4f4f4");
 
 // Let's draw the chart in the shifted reference
 const chart = svg
@@ -100,6 +99,7 @@ const barGroups = chart
 
 barGroups
   .append("rect")
+  .attr("class", "bar")
   .attr("x", d => xScale(d.language))
   .attr("y", d => yScale(d.value))
   .attr("width", xScale.bandwidth())
@@ -199,3 +199,13 @@ chart.selectAll("rect").on("mouseleave", function(d, i) {
   chart.select("#limit").remove();
   chart.selectAll(".divergence").remove();
 });
+
+// text for credits
+
+svg
+  .append("text")
+  .attr("clas", "source")
+  .attr("x", width - margin / 2)
+  .attr("y", height + margin * 1.7)
+  .attr("text-anchor", "start")
+  .text("Source: Stack Overflow, 2018");
